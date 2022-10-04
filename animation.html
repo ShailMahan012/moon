@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Ball Animation</title>
+		<style>
+			#canvas {
+				border: 3px solid black;
+				width: 90%;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+
+	<script>
+		var canvas = document.getElementById("canvas")
+		var ctx = canvas.getContext('2d')
+		canvas.width = window.innerWidth - 100;
+		canvas.height = window.innerHeight - 100;
+		class Ball {
+			constructor(coor, change, radius, ctx) {
+				this.ctx = ctx;
+				this.coor = {x: coor[0], y: coor[1]};
+				this.initial = this.coor;
+				this.change = {dx: change[0], dy: change[1]};
+				this.radius = radius;
+				this.direction = 1;
+			}
+			draw() {
+				this.ctx.beginPath()
+				this.ctx.fillStyle = 'blue';
+				this.ctx.arc(this.coor.x, this.coor.y, this.radius, 0, 2*Math.PI)
+				this.ctx.closePath()
+				this.ctx.fill()
+			}
+			update() {
+				this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+				if ( this.coor.x > this.initial.x + 100 || this.coor.x <= this.initial.x) this.direction *= -1;
+				console.log(this.coor, this.initial, this.change, this.direction);
+				this.coor.x += this.change.dx * this.direction
+				this.coor.y += this.change.dy * this.direction
+				this.draw();
+			}
+		}
+		var ball1 = new Ball([100, 200], [1, 1], 50, ctx)	
+		ball1.draw()
+		//function animate() {ball1.update();requestAnimationFrame(animate);}
+		//animate();
+	</script>
+	<script src="check_files.js?ms=500"></script>
+</html>
